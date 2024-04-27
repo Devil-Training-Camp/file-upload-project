@@ -1,0 +1,32 @@
+{
+  "name": "file-server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "prd": "pm2 start bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:tsc": "tsc -w",
+    "dev:nodemon": "nodemon build/bin/www",
+    "dev": "tsc && concurrently npm:dev:*",
+    "start": "tsc && node build/bin/www"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "koa": "^2.15.3",
+    "koa-bodyparser": "^4.4.1",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-onerror": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.3.1",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/koa-router": "^7.4.8",
+    "concurrently": "^8.2.2",
+    "nodemon": "^1.19.4",
+    "typescript": "^5.4.5"
+  }
+}
