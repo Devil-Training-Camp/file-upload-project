@@ -1,37 +1,47 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <div>
+      <input type="file" @change="fileUpload">
+    </div>
+    
+    <div class="demo-progress">
+      <el-progress :text-inside="true" :stroke-width="26" :percentage="0" />
+    </div>
+    <div class="file-btn">
+      <el-button type="primary">开始</el-button>
+      <el-button>暂停</el-button>
+    </div>
    
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+<script setup lang="ts">
 
-@Options({
-  props: {
-    msg: String
-  }
-})
-export default class HelloWorld extends Vue {
-  msg!: string
-}
+
+
+// setup 和 class不能共存
+// import { Options, Vue } from 'vue-class-component';
+// @Options({
+//   props: {
+//     msg: String
+//   }
+// })
+// export default class HelloWorld extends Vue {
+//   msg!: string
+// }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+.demo-progress {
+  text-align: center;
+  text-align: -webkit-center;
+  margin: 15px 0;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.demo-progress .el-progress--line {
+  margin-bottom: 15px;
+  max-width: 600px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.file-btn button {
+  margin: 0 10px;;
 }
 </style>
