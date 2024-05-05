@@ -1,0 +1,1 @@
+export const UPLOAD_DIR = "/directory" // 设置上传文件的存储路径

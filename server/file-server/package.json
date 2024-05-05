@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "debug": "^4.3.4",
+    "fs": "0.0.1-security",
     "koa": "^2.15.3",
+    "koa-body": "^6.0.1",
     "koa-bodyparser": "^4.4.1",
     "koa-convert": "^1.2.0",
     "koa-json": "^2.0.2",
@@ -21,10 +23,14 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.3.1",
-    "pug": "^2.0.4"
+    "multer": "1.4.5-lts.1",
+    "pug": "^2.0.4",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/koa": "^2.15.0",
     "@types/koa-router": "^7.4.8",
+    "@types/uuid": "^9.0.8",
     "concurrently": "^8.2.2",
     "nodemon": "^1.19.4",
     "typescript": "^5.4.5"

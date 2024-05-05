@@ -8,7 +8,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
-import tsRouter from "./routes/tsRoutes"
+import fileRouter from "./controllers"
 const path = require("path");
 let staticPath = path.join(__dirname, '../public'); // 静态地址
 let viewsPath = path.join(__dirname, '../views'); // 模板地址
@@ -41,7 +41,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
-app.use(tsRouter.routes(), tsRouter.allowedMethods())
+app.use(fileRouter.routes(), fileRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
