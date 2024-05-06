@@ -9,7 +9,15 @@ const find_1 = require("./find");
 const upload_1 = require("./upload");
 const merge_1 = require("./merge");
 const router = new koa_router_1.default();
+router.get('/test', (ctx) => {
+    // 获取当前目录下的文件列表
+    ctx.body = {
+        success: true,
+        message: [123, 456],
+    };
+    return;
+});
 router.get('/findFile', find_1.findFileController);
-router.post('/uploadFile', (0, koa_body_1.koaBody)(), upload_1.uploadFileController);
+router.post('/uploadFile', (0, koa_body_1.koaBody)({ multipart: true }), upload_1.uploadFileController);
 router.post('/mergeFile', (0, koa_body_1.koaBody)(), merge_1.mergeFileController);
 exports.default = router;

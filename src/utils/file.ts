@@ -1,4 +1,4 @@
-import { findFile, uploadChunk, mergeFile } from '../api/file';
+import { findFile, uploadChunk, mergeFile, test } from '../api/file';
 
 // 文件操作工具
  export  interface FilePiece {
@@ -52,6 +52,7 @@ export const splitFile = (file: File, chunkSize = CHUNK_SIZE) => {
         //   await  uploadChunk({ ...params });
         //   return;
         // }
+        await  test();
         await  uploadChunk({ ...params });
 
       }

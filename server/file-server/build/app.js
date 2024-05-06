@@ -21,7 +21,7 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const index = require('./routes/index');
 const users = require('./routes/users');
-const controllers_1 = __importDefault(require("./controllers"));
+const index_1 = __importDefault(require("./controllers/index"));
 const path = require("path");
 let staticPath = path.join(__dirname, '../public'); // 静态地址
 let viewsPath = path.join(__dirname, '../views'); // 模板地址
@@ -48,7 +48,7 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
-app.use(controllers_1.default.routes(), controllers_1.default.allowedMethods());
+app.use(index_1.default.routes(), index_1.default.allowedMethods());
 // error-handling
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx);

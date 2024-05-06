@@ -17,8 +17,8 @@ const fs_1 = __importDefault(require("fs"));
 const uuid_1 = require("uuid");
 const const_1 = require("../const");
 const uploadFileController = (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("enter 1");
     const { file, index, chunk, fileName, hash } = ctx.request.body;
-    debugger;
     // 检查该分片是否已上传
     if (chunkExists(parseInt(index), fileName)) {
         ctx.body = {

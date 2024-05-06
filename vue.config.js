@@ -11,13 +11,13 @@ module.exports = defineConfig({
   // devServer 代理设置
   devServer: {
     host: '0.0.0.0',
-    port: 80,
+    port: 3000,
     https: false,
     open: true,
     proxy: {
       // 配置跨域处理 可以设置你想要代理的接口
       '/api': {
-        target: 'http://192.168.3.1',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

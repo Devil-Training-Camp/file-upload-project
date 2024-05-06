@@ -1,11 +1,16 @@
 import { type CancelTokenSource } from 'axios';
 import api from "./server";
 
+export const test = async () => {
+  const res = await api.get<any>("/api/test", {});
+  return res;
+};
+
 export const findFile = async (params: any) => {
-  const res = await api.get<any>("/findFile", {
+  const res = await api.get<any>("/api/findFile", {
     params,
   });
-  return res.data.data;
+  return res;
 };
 
 export const uploadChunk = async (
@@ -17,12 +22,12 @@ export const uploadChunk = async (
   formData.append('chunk', chunk);
   formData.append('index', index + '');
 
-  const res = await api.post<any>("/uploadFile",formData,);
-  return res.data.data;
+  const res = await api.post<any>("/api/uploadFile",formData);
+  return res;
 };
 
 export const mergeFile = async (params: any) => {
-  const res = await api.post<any>("/mergeFile",params,);
-  return res.data.data;
+  const res = await api.post<any>("/api/mergeFile",params);
+  return res;
 };
 
