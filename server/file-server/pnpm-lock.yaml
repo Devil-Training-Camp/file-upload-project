@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   debug:
     specifier: ^4.3.4
@@ -37,6 +41,9 @@ dependencies:
   koa-views:
     specifier: ^6.3.1
     version: 6.3.1(pug@2.0.4)
+  koa2-formidable:
+    specifier: ^1.0.3
+    version: 1.0.3
   multer:
     specifier: 1.4.5-lts.1
     version: 1.4.5-lts.1
@@ -1267,6 +1274,11 @@ packages:
       signal-exit: 4.1.0
     dev: false
 
+  /formidable@1.2.6:
+    resolution: {integrity: sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ==}
+    deprecated: 'Please upgrade to latest, formidable@v2 or formidable@v3! Check these notes: https://bit.ly/2ZEqIau'
+    dev: false
+
   /formidable@2.1.2:
     resolution: {integrity: sha512-CM3GuJ57US06mlpQ47YcunuUZ9jpm8Vx+P2CGt2j7HpgkKZO/DJYQ0Bobim8G6PFQmK5lOqOOdUXboU+h73A4g==}
     dependencies:
@@ -1995,6 +2007,12 @@ packages:
       - velocityjs
       - walrus
       - whiskers
+    dev: false
+
+  /koa2-formidable@1.0.3:
+    resolution: {integrity: sha512-m80sje/vb4mvhZn7HbZPwYHnsGjKL+oJ4OasNbH+jdvjIddVMPmugmmBwPnMYDGaMnL0tT9mJrfKRcp8MMdNyQ==}
+    dependencies:
+      formidable: 1.2.6
     dev: false
 
   /koa@2.15.3:

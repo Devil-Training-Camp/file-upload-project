@@ -11,7 +11,7 @@ module.exports = defineConfig({
   // devServer 代理设置
   devServer: {
     host: '0.0.0.0',
-    port: 3000,
+    port: 80,
     https: false,
     open: true,
     proxy: {

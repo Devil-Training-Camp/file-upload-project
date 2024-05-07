@@ -23,6 +23,7 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.3.1",
+    "koa2-formidable": "^1.0.3",
     "multer": "1.4.5-lts.1",
     "pug": "^2.0.4",
     "uuid": "^9.0.1"

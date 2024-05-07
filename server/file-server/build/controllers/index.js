@@ -10,7 +10,7 @@ const upload_1 = require("./upload");
 const merge_1 = require("./merge");
 const router = new koa_router_1.default();
 router.get('/test', (ctx) => {
-    // 获取当前目录下的文件列表
+    // 测试
     ctx.body = {
         success: true,
         message: [123, 456],

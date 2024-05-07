@@ -21,6 +21,7 @@ export const uploadChunk = async (
   formData.append('hash', hash);
   formData.append('chunk', chunk);
   formData.append('index', index + '');
+  console.log(chunk, "chunkchunkchunk")
 
   const res = await api.post<any>("/api/uploadFile",formData);
   return res;

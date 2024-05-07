@@ -19,6 +19,7 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
+const { koaBody } = require('koa-body');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const index_1 = __importDefault(require("./controllers/index"));
@@ -27,9 +28,13 @@ let staticPath = path.join(__dirname, '../public'); // 静态地址
 let viewsPath = path.join(__dirname, '../views'); // 模板地址
 // error handler
 onerror(app);
+// app.use(koaBody({
+//   multipart: true
+// }));
 // middlewares
 app.use(bodyparser({
-    enableTypes: ['json', 'form', 'text']
+    multipart: true,
+    //enableTypes:['json', 'form', 'text']
 }));
 app.use(json());
 app.use(logger());

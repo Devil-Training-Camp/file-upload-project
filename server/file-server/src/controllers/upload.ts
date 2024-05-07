@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { UPLOAD_DIR } from "../const"
 
 export const uploadFileController = async (ctx: Context) => {
-    console.log("enter 1")
+    console.log(ctx.request.body.hash, ctx.request.body.index,ctx.request.files,"enter --------------1")
+    return
     const { file, index, chunk, fileName, hash } = ctx.request.body;
     // 检查该分片是否已上传
     if (chunkExists(parseInt(index), fileName)) {
