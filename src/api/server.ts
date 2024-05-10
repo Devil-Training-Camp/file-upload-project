@@ -104,16 +104,16 @@ class RequestHttp {
   }
 
   // 常用方法封装
-  get<T>(url: string, params?: object): Promise<ResultData<T>> {
+  get<T>(url: string, params?: object): Promise<any> {
     return this.service.get(url, {params});
   }
-  post<T>(url: string, params?: object): Promise<ResultData<T>> {
+  post<T>(url: string, params?: object): Promise<any> {
     return this.service.post(url, params);
   }
-  put<T>(url: string, params?: object): Promise<ResultData<T>> {
+  put<T>(url: string, params?: object): Promise<any> {
     return this.service.put(url, params);
   }
-  delete<T>(url: string, params?: object): Promise<ResultData<T>> {
+  delete<T>(url: string, params?: object): Promise<any> {
     return this.service.delete(url, {params});
   }
 }

@@ -47,13 +47,12 @@ export const splitFile = (file: File, chunkSize = CHUNK_SIZE) => {
         const params = { hash, chunk: piece.chunk, index: i };
 
         onTick?.(Number(((i / total) * 100).toFixed(2)));
-        // const { exists } = await findFile({ hash, index: i }); //查找文件是否已经上传过 没上传则继续上传
-        // if (!exists) {
-        //   await  uploadChunk({ ...params });
-        //   return;
-        // }
-        await  test();
-        await  uploadChunk({ ...params });
+        const { flag } = await findFile({ hash, index: i }); //查找文件是否已经上传过 没上传则继续上传
+        if (!flag) {
+           await  uploadChunk({ ...params });
+           return;
+         }
+         //await  uploadChunk({ ...params });
 
       }
       onTick?.(100);
