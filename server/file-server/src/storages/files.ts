@@ -12,3 +12,7 @@ export const readFile = (filepath:string) => {
 export const isExistFile = (filepath: string) => {
     return fs.existsSync(filepath);
 }
+
+export const mkdir = (hashDir: string, cur: boolean) => {
+    return fs.mkdirSync(hashDir, { recursive: cur });
+}
