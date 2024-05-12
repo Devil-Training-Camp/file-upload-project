@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isExistFile = exports.readFile = exports.writeFile = void 0;
+exports.removeDir = exports.mkdir = exports.isExistFile = exports.readFile = exports.writeFile = void 0;
 // 文件操作
 const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const writeFile = (filepath, content) => __awaiter(void 0, void 0, void 0, function* () {
     yield fs_1.default.writeFileSync(filepath, content);
 });
@@ -27,3 +28,24 @@ const isExistFile = (filepath) => {
     return fs_1.default.existsSync(filepath);
 };
 exports.isExistFile = isExistFile;
+const mkdir = (hashDir, cur) => {
+    return fs_1.default.mkdirSync(hashDir, { recursive: cur });
+};
+exports.mkdir = mkdir;
+const removeDir = (folderPath) => {
+    //判断文件夹是否存在
+    if (fs_1.default.existsSync(folderPath)) {
+        //读取文件夹下的文件目录，以数组形式输出
+        fs_1.default.readdirSync(folderPath).forEach((file) => {
+            //拼接路径
+            const curPath = path_1.default.resolve(folderPath, file);
+            //判断是不是文件夹，如果是，继续递归
+            if (fs_1.default.existsSync(curPath)) {
+                fs_1.default.unlinkSync(curPath);
+            }
+        });
+        //仅可用于删除空目录
+        fs_1.default.rmdirSync(folderPath);
+    }
+};
+exports.removeDir = removeDir;

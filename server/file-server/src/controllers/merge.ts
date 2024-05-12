@@ -1,48 +1,51 @@
 import { type Context } from 'koa';
 import fs from 'fs';
 import { UPLOAD_DIR } from "../const"
+import path from "path"
+import { isExistFile, removeDir  } from '../storages/files';
 
 export const mergeFileController = (ctx: Context) => {
     // 获取当前目录下的文件列表
-    fs.readdir(UPLOAD_DIR, async (err: NodeJS.ErrnoException | null, files: string[]) => {
-        // 调用合并分片的函数
-        await mergeChunks(files, UPLOAD_DIR, "fileName");
-        if (err) {
-            ctx.body = {
-                success: false,
-                message: err,
-            };
-            return;
-        }
-    }); 
-    return
-}
+    const hash = ctx.request.body.hash;
+    const filename = ctx.request.body.filename;
+    const hashDir = path.resolve(UPLOAD_DIR, hash)
 
-// 合并分片的函数，根据分片文件列表进行合并
-async function mergeChunks(files: string[], UPLOAD_DIR: string, fileName: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const mergedFilePath = `${UPLOAD_DIR}/${fileName}`;
-  
-      const writeStream: fs.WriteStream = fs.createWriteStream(mergedFilePath);
-  
-      files
-        .sort((a: string, b: string) => parseInt(a.split('_')[0]) - parseInt(b.split('_')[0]))
-        .forEach((file: string) => {
-          const readStream: fs.ReadStream = fs.createReadStream(`${UPLOAD_DIR}/${file}`);
-          readStream.pipe(writeStream, { end: false });
-        });
-  
-      writeStream.on('close', () => {
-        // 合并完成后删除所有分片
-        files.forEach((file: string) => fs.unlinkSync(`${UPLOAD_DIR}/${file}`));
-  
-        console.log('文件合并成功:', mergedFilePath);
-        resolve(mergedFilePath);
-      });
-  
-      writeStream.on('error', (err) => {
-        console.error('Error merging files:', err);
-        reject(err);
-      });
-    });
-  }
+
+    const flag = isExistFile(hashDir)
+    
+    if (!flag) {
+      ctx.body = {
+        code: 0,
+        flag,
+        message: '文件不存在！',
+      }
+    }
+    fs.readdir(hashDir, async (err: NodeJS.ErrnoException | null, files: string[]) => {
+
+
+      files?.sort((a:any, b:any) => (a - b)).map(chunkPath => {
+        // 合并文件
+        fs.appendFileSync(
+          path.join(UPLOAD_DIR, filename),
+          fs.readFileSync(`${hashDir}\\${chunkPath}`)
+        )
+
+      })
+
+    }); 
+
+    // 删除临时文件夹
+    try {
+      //removeDir(hashDir);
+    } catch (error) {
+      console.log("清空临时文件")
+    }
+    
+    // rmEmptyDir(hashDir);
+    // 返回文件地址
+    ctx.body = {
+      code: 0,
+      flag,
+      message: '合并完毕',
+    }
+}

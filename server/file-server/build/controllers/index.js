@@ -17,7 +17,7 @@ router.get('/test', (ctx) => {
     };
     return;
 });
-router.get('/findFile', find_1.findFileController);
+router.post('/findFile', find_1.findFileController);
 router.post('/uploadFile', (0, koa_body_1.koaBody)({ multipart: true }), upload_1.uploadFileController);
-router.post('/mergeFile', (0, koa_body_1.koaBody)(), merge_1.mergeFileController);
+router.post('/mergeFile', merge_1.mergeFileController);
 exports.default = router;

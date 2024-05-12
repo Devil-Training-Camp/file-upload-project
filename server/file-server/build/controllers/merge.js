@@ -15,44 +15,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mergeFileController = void 0;
 const fs_1 = __importDefault(require("fs"));
 const const_1 = require("../const");
+const path_1 = __importDefault(require("path"));
+const files_1 = require("../storages/files");
 const mergeFileController = (ctx) => {
     // 获取当前目录下的文件列表
-    fs_1.default.readdir(const_1.UPLOAD_DIR, (err, files) => __awaiter(void 0, void 0, void 0, function* () {
-        // 调用合并分片的函数
-        yield mergeChunks(files, const_1.UPLOAD_DIR, "fileName");
-        if (err) {
-            ctx.body = {
-                success: false,
-                message: err,
-            };
-            return;
-        }
+    const hash = ctx.request.body.hash;
+    const filename = ctx.request.body.filename;
+    const hashDir = path_1.default.resolve(const_1.UPLOAD_DIR, hash);
+    const flag = (0, files_1.isExistFile)(hashDir);
+    if (!flag) {
+        ctx.body = {
+            code: 0,
+            flag,
+            message: '文件不存在！',
+        };
+    }
+    fs_1.default.readdir(hashDir, (err, files) => __awaiter(void 0, void 0, void 0, function* () {
+        files === null || files === void 0 ? void 0 : files.sort((a, b) => (a - b)).map(chunkPath => {
+            // 合并文件
+            fs_1.default.appendFileSync(path_1.default.join(const_1.UPLOAD_DIR, filename), fs_1.default.readFileSync(`${hashDir}\\${chunkPath}`));
+        });
     }));
-    return;
+    // 删除临时文件夹
+    try {
+        //removeDir(hashDir);
+    }
+    catch (error) {
+        console.log("清空临时文件");
+    }
+    // rmEmptyDir(hashDir);
+    // 返回文件地址
+    ctx.body = {
+        code: 0,
+        flag,
+        message: '合并完毕',
+    };
 };
 exports.mergeFileController = mergeFileController;
-// 合并分片的函数，根据分片文件列表进行合并
-function mergeChunks(files, UPLOAD_DIR, fileName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            const mergedFilePath = `${UPLOAD_DIR}/${fileName}`;
-            const writeStream = fs_1.default.createWriteStream(mergedFilePath);
-            files
-                .sort((a, b) => parseInt(a.split('_')[0]) - parseInt(b.split('_')[0]))
-                .forEach((file) => {
-                const readStream = fs_1.default.createReadStream(`${UPLOAD_DIR}/${file}`);
-                readStream.pipe(writeStream, { end: false });
-            });
-            writeStream.on('close', () => {
-                // 合并完成后删除所有分片
-                files.forEach((file) => fs_1.default.unlinkSync(`${UPLOAD_DIR}/${file}`));
-                console.log('文件合并成功:', mergedFilePath);
-                resolve(mergedFilePath);
-            });
-            writeStream.on('error', (err) => {
-                console.error('Error merging files:', err);
-                reject(err);
-            });
-        });
-    });
-}

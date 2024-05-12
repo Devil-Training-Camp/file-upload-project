@@ -1,5 +1,4 @@
 import { findFile, uploadChunk, mergeFile, test } from '../api/file';
-
 // 文件操作工具
  export  interface FilePiece {
     chunk: Blob;
@@ -32,30 +31,37 @@ export const splitFile = (file: File, chunkSize = CHUNK_SIZE) => {
   * @hash 计算好的hash
   * @onTick 进度的回调函数
   */
- export const uploadChunks = async (params: {pieces: FilePiece[]; hash: string; onTick?: (progress: number) => void;}) => {
-   const { pieces: originChunks, hash, onTick } = params;
+ export const uploadChunks = async (params: {pieces: FilePiece[]; hash: string; file: File | null; onTick?: (progress: number) => void;}) => {
+   const { pieces: originChunks, hash, file,onTick } = params;
    const total = originChunks.length;
    const pool: Promise<any>[] = []; // 并发池
 
    const doUpload = async (pieces: FilePiece[]) => {
-      if (pieces.length === 0) {
-        console.log('上传完成');
-        onTick?.(100);
-      }
+
       for (let i = 0; i < pieces.length; i++) {
         const piece = pieces[i];
         const params = { hash, chunk: piece.chunk, index: i };
 
-        onTick?.(Number(((i / total) * 100).toFixed(2)));
-        const { flag } = await findFile({ hash, index: i }); //查找文件是否已经上传过 没上传则继续上传
-        if (!flag) {
-           await  uploadChunk({ ...params });
-           return;
-         }
+        
+        try {
+          const { flag } = await findFile({ hash, index: i }); //查找文件是否已经上传过 没上传则继续上传
+          if (!flag) {
+            onTick?.(Number(((i / total) * 100).toFixed(2)));
+            await  uploadChunk({ ...params });
+          }
+        } catch (error) {
+          console.log(error, "error")
+          return;
+        }
+        
          //await  uploadChunk({ ...params });
-
+        if ((pieces.length-1) === i) {
+          console.log('上传完成');
+          mergeFile({hash, filename: file?.name})
+          onTick?.(100);
+        }
       }
-      onTick?.(100);
+      // onTick?.(100);
    }
    await doUpload(originChunks);
  };

@@ -7,9 +7,7 @@ export const test = async () => {
 };
 
 export const findFile = async (params: any) => {
-  const res = await api.get<any>("/api/findFile", {
-    params,
-  });
+  const res = await api.post<any>("/api/findFile",params);
   return res;
 };
 
@@ -21,7 +19,7 @@ export const uploadChunk = async (
   formData.append('hash', hash);
   formData.append('chunk', chunk);
   formData.append('index', index + '');
-  console.log(chunk, "chunkchunkchunk")
+  // console.log(cancelToken, "cancelToken")
 
   const res = await api.post<any>("/api/uploadFile",formData);
   return res;
