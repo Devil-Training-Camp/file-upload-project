@@ -76,6 +76,7 @@ export const createHash = ({chunks, onTick}:{chunks: FilePiece[],  onTick?:(perc
     // 开启多线程
     // 这种方式，能 work 吗？
     // ts 文件会被编译吗？
+    // 另外，每次调用这个函数都会加载 worker，确定没问题吗？
     const worker = new Worker(new URL('./worker', import.meta.url), {
       type: 'module',
     })
