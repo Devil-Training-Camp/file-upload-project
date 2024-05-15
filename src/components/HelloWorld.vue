@@ -1,4 +1,5 @@
 <template>
+  <!-- 这个文件的命名是怎么回事 -->
   <div class="hello">
     <div>
       <input type="file" @change="fileUpload">
@@ -25,11 +26,13 @@ const fileChunks = ref<FilePiece[]>([]);
 const totalPercentage = ref<number>(0);
 const upload = ref<boolean>(true);
 // 选择文件
+// 这方法名，跟函数的作用，好像没关系
 function fileUpload(e: any) {
   file.value = e.target.files[0];
 }
 
 // 开始上传
+// 尽可能用箭头函数
 async function onStartUpload() {
   
   if(!file.value) {
@@ -38,6 +41,8 @@ async function onStartUpload() {
   }
   //进行分片
   const fileChunkList = splitFile(file.value);
+  // 为什么要把这个 chunks 存储到 vue 响应式系统中？
+  // 普通的变量应就能满足需求了吧
   fileChunks.value = fileChunkList
   hash.value = await createHash({ chunks: fileChunkList });
   //开始上传
@@ -51,6 +56,8 @@ async function onStartUpload() {
 async function onPause() {
   upload.value = !upload.value;
   if (!upload.value) {
+    // requests 是怎么来的？这看起来是一个全局副作用，是一种比较不好的设计
+    // 比如，如果需要支持同时上传多个文件。。。这就 gg 了吧？
     store.state.requests.forEach((v: any) => v.cancel("取消请求"));
     store.commit('setClearRequests');
     // source = CancelToken.source();

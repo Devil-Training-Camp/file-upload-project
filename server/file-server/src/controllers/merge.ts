@@ -20,11 +20,14 @@ export const mergeFileController = (ctx: Context) => {
         message: '文件不存在！',
       }
     }
+    // 改成用 `fs/promises` 把
     fs.readdir(hashDir, async (err: NodeJS.ErrnoException | null, files: string[]) => {
 
-
+// 少用 any。。。
+// sort 函数里面的 a - b 是什么逻辑？a/b 是什么类型？
       files?.sort((a:any, b:any) => (a - b)).map(chunkPath => {
         // 合并文件
+        // 这种写法，效率太低了
         fs.appendFileSync(
           path.join(UPLOAD_DIR, filename),
           fs.readFileSync(`${hashDir}\\${chunkPath}`)

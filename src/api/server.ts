@@ -9,11 +9,14 @@ interface Result {
 }
 
 // 请求响应参数，包含data
+// 这个类型并没有用到
 interface ResultData<T = any> extends Result {
   data?: T;
 }
 const URL = ''
+// 这命名。。。
 enum RequestEnums {
+  // 这些枚举值根本风马牛不相及
   TIMEOUT = 20000,
   OVERDUE = 600, // 登录失效
   FAIL = 999, // 请求失败
@@ -21,6 +24,7 @@ enum RequestEnums {
 }
 const config = {
   // 默认地址
+  // URL 是空？
   baseURL: URL as string,
   // 设置超时时间
   timeout: RequestEnums.TIMEOUT as number,
@@ -44,6 +48,7 @@ class RequestHttp {
       (config: any) => {
         const token = localStorage.getItem('token') || '';
         const source = CancelToken.source();
+        // 额，这么传递进来之后，外部怎么 cancel？
         config.cancelToken = source.token;
         store.commit("setCancelToken", source);
         return {
@@ -74,6 +79,7 @@ class RequestHttp {
           // })
           return Promise.reject(data);
         }
+        // 会用 axios 下载文件吗？
         // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
         if (data.code && data.code !== RequestEnums.SUCCESS) {
           ElMessage.error(data); // 此处也可以使用组件提示报错信息

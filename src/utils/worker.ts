@@ -16,6 +16,7 @@ self.onmessage = async (e) => {
         })
     }
     self.postMessage({
+        // 两个属性的缩进都对不齐。。。
         percentage: 100,
     hash: spark.end(),
     });

@@ -7,6 +7,7 @@ export const findFileController = (ctx: Context) => {
     let flag = false;
     let hashDir = "";
     const hash = ctx.request.body.hash;
+    // 配多个 prettier 吧
     const index = ctx.request.body.index+'';
 
     console.log(hash)
@@ -17,6 +18,7 @@ export const findFileController = (ctx: Context) => {
     hashDir = path.resolve(hashD, index);
     
 
+    // 这是一个同步接口？
     flag = isExistFile(hashDir);
 
     console.log(hashDir)

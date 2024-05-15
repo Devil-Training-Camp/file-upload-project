@@ -2,6 +2,7 @@
 import fs from "fs"
 import path from "path"
 
+// fs 不要用同步接口！！！！
 export const writeFile = async (filepath:string, content:Buffer) => {
     await fs.writeFileSync(filepath, content);
 }

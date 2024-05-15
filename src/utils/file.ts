@@ -31,9 +31,11 @@ export const splitFile = (file: File, chunkSize = CHUNK_SIZE) => {
   * @hash 计算好的hash
   * @onTick 进度的回调函数
   */
+//  捋一下这个函数的逻辑，它需要：1. 外部传入分割完的切片；2. 外部传入文件名；就挺啰嗦的
  export const uploadChunks = async (params: {pieces: FilePiece[]; hash: string; file: File | null; onTick?: (progress: number) => void;}) => {
    const { pieces: originChunks, hash, file,onTick } = params;
    const total = originChunks.length;
+  //  这个变量没用到
    const pool: Promise<any>[] = []; // 并发池
 
    const doUpload = async (pieces: FilePiece[]) => {
@@ -72,6 +74,9 @@ export const createHash = ({chunks, onTick}:{chunks: FilePiece[],  onTick?:(perc
     
   return new Promise( resolve => {
     // 开启多线程
+    // 这种方式，能 work 吗？
+    // ts 文件会被编译吗？
+    // 另外，每次调用这个函数都会加载 worker，确定没问题吗？
     const worker = new Worker(new URL('./worker', import.meta.url), {
       type: 'module',
     })
