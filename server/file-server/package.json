@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:tsc": "tsc -w",
     "dev:nodemon": "nodemon build/bin/www",
+    // 前面的 tsc 好像并无必要？
     "dev": "tsc && concurrently npm:dev:*",
+    // 额。。。这个 start 是什么时候用的？跟 dev、prd 是什么关系？
     "start": "tsc && node build/bin/www"
   },
   "dependencies": {
@@ -24,6 +26,7 @@
     "koa-views": "^6.3.1",
     "koa2-formidable": "^1.0.3",
     "multer": "1.4.5-lts.1",
+    // 代码里面好像没用到这个？
     "pug": "^2.0.4",
     "uuid": "^9.0.1"
   },

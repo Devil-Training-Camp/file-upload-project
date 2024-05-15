@@ -21,10 +21,12 @@ export const uploadChunk = async (
   formData.append('index', index + '');
   // console.log(cancelToken, "cancelToken")
 
+  // any 是什么鬼。。。anyScript？
   const res = await api.post<any>("/api/uploadFile",formData);
   return res;
 };
 
+// api 层应该做一些参数校验的
 export const mergeFile = async (params: any) => {
   const res = await api.post<any>("/api/mergeFile",params);
   return res;

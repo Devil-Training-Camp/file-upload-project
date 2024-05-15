@@ -12,6 +12,7 @@ const path = require("path");
 let staticPath = path.join(__dirname, '../public'); // 静态地址
 let viewsPath = path.join(__dirname, '../views'); // 模板地址
 
+// 这怎么又变成。。。js 了
 // error handler
 onerror(app)
 
