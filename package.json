@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "dev": "concurrently \"nodemon ./src/server/file-server/build/bin/www\" \"pnpm run serve\""
+    "dev": "concurrently \"nodemon ./src/server/file-server/build/bin/www\" \"npm run serve\""
   },
   "dependencies": {
     "axios": "^1.6.8",

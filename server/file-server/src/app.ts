@@ -1,16 +1,17 @@
-const Koa = require('koa')
-const app = new Koa()
-const views = require('koa-views')
-const json = require('koa-json')
-const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
-const index = require('./routes/index')
-const users = require('./routes/users')
+import Koa from "koa"
+import views from "koa-views"
+import json from "koa-json"
+import onerror from "koa-onerror"
+import bodyparser from "koa-bodyparser"
+import logger from "koa-logger"
 import fileRouter from "./controllers/index"
-const path = require("path");
-let staticPath = path.join(__dirname, '../public'); // 静态地址
-let viewsPath = path.join(__dirname, '../views'); // 模板地址
+import index from "./routes/index"
+import users from "./routes/users"
+import path from "path"
+const app = new Koa()
+
+const staticPath = path.join(__dirname, '../public'); // 静态地址
+const viewsPath = path.join(__dirname, '../views'); // 模板地址
 
 // error handler
 onerror(app)
