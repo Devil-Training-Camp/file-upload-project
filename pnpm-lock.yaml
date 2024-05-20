@@ -1,18 +1,15 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@types/spark-md5':
-    specifier: ^3.0.4
-    version: 3.0.4
   axios:
     specifier: ^1.6.8
     version: 1.6.8
-  core-js:
-    specifier: ^3.8.3
-    version: 3.8.3
   element-plus:
     specifier: ^2.7.2
     version: 2.7.2(vue@3.4.25)
+  spark-md5:
+    specifier: ^3.0.2
+    version: 3.0.2
   vue:
     specifier: ^3.2.13
     version: 3.4.25(typescript@4.5.5)
@@ -30,6 +27,9 @@ devDependencies:
   '@types/jest':
     specifier: ^27.0.1
     version: 27.5.2
+  '@types/spark-md5':
+    specifier: ^3.0.4
+    version: 3.0.4
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.4.0
     version: 5.4.0(@typescript-eslint/parser@5.4.0)(eslint@7.32.0)(typescript@4.5.5)
@@ -38,7 +38,7 @@ devDependencies:
     version: 5.4.0(eslint@7.32.0)(typescript@4.5.5)
   '@vue/cli-plugin-babel':
     specifier: ~5.0.0
-    version: 5.0.0(@vue/cli-service@5.0.1)(core-js@3.8.3)(vue@3.4.25)
+    version: 5.0.0(@vue/cli-service@5.0.1)(core-js@3.37.1)(vue@3.4.25)
   '@vue/cli-plugin-eslint':
     specifier: ~5.0.0
     version: 5.0.0(@vue/cli-service@5.0.1)(eslint@7.32.0)
@@ -72,6 +72,9 @@ devDependencies:
   concurrently:
     specifier: ^8.2.2
     version: 8.2.2
+  core-js:
+    specifier: ^3.37.1
+    version: 3.37.1
   eslint:
     specifier: ^7.32.0
     version: 7.32.0
@@ -93,9 +96,6 @@ devDependencies:
   sass-loader:
     specifier: ^12.0.0
     version: 12.0.0(sass@1.32.7)(webpack@5.91.0)
-  spark-md5:
-    specifier: ^3.0.2
-    version: 3.0.2
   ts-jest:
     specifier: ^27.0.4
     version: 27.0.4(@babel/core@7.24.4)(@types/jest@27.5.2)(babel-jest@27.5.1)(jest@27.5.1)(typescript@4.5.5)
@@ -2094,7 +2094,7 @@ packages:
 
   /@types/spark-md5@3.0.4:
     resolution: {integrity: sha512-qtOaDz+IXiNndPgYb6t1YoutnGvFRtWSNzpVjkAPCfB2UzTyybuD4Tjgs7VgRawum3JnJNRwNQd4N//SvrHg1Q==}
-    dev: false
+    dev: true
 
   /@types/stack-utils@2.0.3:
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -2303,7 +2303,7 @@ packages:
       svg-tags: 1.0.0
     dev: true
 
-  /@vue/babel-preset-app@5.0.8(@babel/core@7.24.4)(core-js@3.8.3)(vue@3.4.25):
+  /@vue/babel-preset-app@5.0.8(@babel/core@7.24.4)(core-js@3.37.1)(vue@3.4.25):
     resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==}
     peerDependencies:
       '@babel/core': '*'
@@ -2328,7 +2328,7 @@ packages:
       '@vue/babel-plugin-jsx': 1.2.2(@babel/core@7.24.4)
       '@vue/babel-preset-jsx': 1.4.0(@babel/core@7.24.4)(vue@3.4.25)
       babel-plugin-dynamic-import-node: 2.3.3
-      core-js: 3.8.3
+      core-js: 3.37.1
       core-js-compat: 3.37.0
       semver: 7.6.0
       vue: 3.4.25(typescript@4.5.5)
@@ -2422,13 +2422,13 @@ packages:
     resolution: {integrity: sha512-KmtievE/B4kcXp6SuM2gzsnSd8WebkQpg3XaB6GmFh1BJGRqa1UiW9up7L/Q67uOdTigHxr5Ar2lZms4RcDjwQ==}
     dev: true
 
-  /@vue/cli-plugin-babel@5.0.0(@vue/cli-service@5.0.1)(core-js@3.8.3)(vue@3.4.25):
+  /@vue/cli-plugin-babel@5.0.0(@vue/cli-service@5.0.1)(core-js@3.37.1)(vue@3.4.25):
     resolution: {integrity: sha512-7otBeEWbv2IBbuDNrGdYpe2+RjnG4jYrsak8zW2LCQJaQhCIvkPEOBF3YEsgBfFvssAwpl0ySOXvNPIQXGhBQA==}
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
       '@babel/core': 7.24.4
-      '@vue/babel-preset-app': 5.0.8(@babel/core@7.24.4)(core-js@3.8.3)(vue@3.4.25)
+      '@vue/babel-preset-app': 5.0.8(@babel/core@7.24.4)(core-js@3.37.1)(vue@3.4.25)
       '@vue/cli-service': 5.0.1(lodash@4.17.21)(sass-loader@12.0.0)(vue@3.4.25)
       '@vue/cli-shared-utils': 5.0.8
       babel-loader: 8.3.0(@babel/core@7.24.4)(webpack@5.91.0)
@@ -4202,10 +4202,10 @@ packages:
       browserslist: 4.23.0
     dev: true
 
-  /core-js@3.8.3:
-    resolution: {integrity: sha512-KPYXeVZYemC2TkNEkX/01I+7yd+nX3KddKwZ1Ww7SKWdI2wQprSgLmrTddT8nw92AjEklTsPBoSdQBhbI1bQ6Q==}
-    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+  /core-js@3.37.1:
+    resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
     requiresBuild: true
+    dev: true
 
   /core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -8679,7 +8679,7 @@ packages:
 
   /spark-md5@3.0.2:
     resolution: {integrity: sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==}
-    dev: true
+    dev: false
 
   /spawn-command@0.0.2:
     resolution: {integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==}
