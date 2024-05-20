@@ -60,6 +60,9 @@ devDependencies:
   '@types/koa-router':
     specifier: ^7.4.8
     version: 7.4.8
+  '@types/koa-static':
+    specifier: ^4.0.4
+    version: 4.0.4
   '@types/koa-views':
     specifier: ^7.0.0
     version: 7.0.0
@@ -203,6 +206,19 @@ packages:
     resolution: {integrity: sha512-SkWlv4F9f+l3WqYNQHnWjYnyTxYthqt8W9az2RTdQW7Ay8bc00iRZcrb8MC75iEfPqnGcg2csEl8tTG1NQPD4A==}
     dependencies:
       '@types/koa': 2.15.0
+    dev: true
+
+  /@types/koa-send@4.1.6:
+    resolution: {integrity: sha512-vgnNGoOJkx7FrF0Jl6rbK1f8bBecqAchKpXtKuXzqIEdXTDO6dsSTjr+eZ5m7ltSjH4K/E7auNJEQCAd0McUPA==}
+    dependencies:
+      '@types/koa': 2.15.0
+    dev: true
+
+  /@types/koa-static@4.0.4:
+    resolution: {integrity: sha512-j1AUzzl7eJYEk9g01hNTlhmipFh8RFbOQmaMNLvLcNNAkPw0bdTs3XTa3V045XFlrWN0QYnblbDJv2RzawTn6A==}
+    dependencies:
+      '@types/koa': 2.15.0
+      '@types/koa-send': 4.1.6
     dev: true
 
   /@types/koa-views@7.0.0:

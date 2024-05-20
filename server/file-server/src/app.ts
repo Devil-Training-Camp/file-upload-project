@@ -1,9 +1,11 @@
 import Koa from "koa"
+import "../modules"
 import views from "koa-views"
 import json from "koa-json"
 import onerror from "koa-onerror"
 import bodyparser from "koa-bodyparser"
 import logger from "koa-logger"
+import koa_static from "koa-static"
 import fileRouter from "./controllers/index"
 import index from "./routes/index"
 import users from "./routes/users"
@@ -18,29 +20,31 @@ onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  multipart: true,
-  //enableTypes:['json', 'form', 'text']
+  enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
 // 修改了目录结构后此处也要修改
-app.use(require('koa-static')(staticPath))
+app.use(koa_static(staticPath))
 app.use(views(viewsPath, {
   extension: 'pug'
 }))
 
 // logger
 app.use(async (ctx, next) => {
-  const start = new Date()
   await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  console.log(`${ctx.method} ${ctx.url}`)
 })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(fileRouter.routes(), fileRouter.allowedMethods())
+app.use(index.routes())
+app.use(index.allowedMethods());
+
+app.use(users.routes())
+app.use(users.allowedMethods());
+
+app.use(fileRouter.routes())
+app.use(fileRouter.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
