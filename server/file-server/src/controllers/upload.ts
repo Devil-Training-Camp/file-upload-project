@@ -24,7 +24,7 @@ export const uploadFileController = async (ctx: Context) => {
     const filePath = path.resolve(hashDir, index);
 
     // 写入之前判断文件是否已经存在
-    if(isExistFile(filePath)) {
+    if(await isExistFile(filePath)) {
         ctx.body = {
              code: 0,
              message: '该分片已经存在',
@@ -32,7 +32,7 @@ export const uploadFileController = async (ctx: Context) => {
         return;
     }
     try {
-        writeFile(filePath, readFile(tempath));
+        await writeFile(filePath, readFile(tempath));
 
         ctx.body = {
             code: 0,

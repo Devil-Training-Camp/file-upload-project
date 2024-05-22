@@ -7,19 +7,10 @@ import { mergeFileController } from './merge';
 
 const router = new Router();
 
-router.get('/test', (ctx: any) => {
-    // 测试
-    ctx.body = {
-        success: true,
-        message: [123,456],
-    };
-    return
-} )
-
-router.post('/findFile', findFileController)
+router.post('/findFile',koaBody(), findFileController)
 
 router.post('/uploadFile', koaBody({multipart: true}), uploadFileController)
 
-router.post('/mergeFile', mergeFileController)
+router.post('/mergeFile',koaBody(), mergeFileController)
 
 export default router

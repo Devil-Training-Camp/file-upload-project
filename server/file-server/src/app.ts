@@ -3,12 +3,10 @@ import "../modules"
 import views from "koa-views"
 import json from "koa-json"
 import onerror from "koa-onerror"
-import bodyparser from "koa-bodyparser"
+import koaBody from 'koa-body'
 import logger from "koa-logger"
 import koa_static from "koa-static"
 import fileRouter from "./controllers/index"
-import index from "./routes/index"
-import users from "./routes/users"
 import path from "path"
 const app = new Koa()
 
@@ -19,10 +17,9 @@ const viewsPath = path.join(__dirname, '../views'); // 模板地址
 onerror(app)
 
 // middlewares
-app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
-}))
+// app.use(bodyparser())
 app.use(json())
+app.use(koaBody())
 app.use(logger())
 // 修改了目录结构后此处也要修改
 app.use(koa_static(staticPath))
@@ -37,12 +34,6 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-app.use(index.routes())
-app.use(index.allowedMethods());
-
-app.use(users.routes())
-app.use(users.allowedMethods());
-
 app.use(fileRouter.routes())
 app.use(fileRouter.allowedMethods());
 

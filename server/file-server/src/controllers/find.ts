@@ -3,24 +3,15 @@ import { isExistFile  } from '../storages/files';
 import path from "path"
 import { UPLOAD_DIR } from "../const"
 
-export const findFileController = (ctx: Context) => {
+export const findFileController = async (ctx: Context, next) => {
+    await next();
     let flag = false;
     let hashDir = "";
-    const hash = ctx.request.body.hash;
-    const index = ctx.request.body.index+'';
-
-    console.log(hash)
-    console.log(index,"-------------------")
+    const { hash, index } = ctx.request.body;
 
     const hashD = path.resolve(UPLOAD_DIR, hash);
-
     hashDir = path.resolve(hashD, index);
-    
-
-    flag = isExistFile(hashDir);
-
-    console.log(hashDir)
-    console.log(flag,"-------------------")
+    flag = await isExistFile(hashDir);
 
     ctx.body = {
         code: 0,

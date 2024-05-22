@@ -4,14 +4,14 @@ import { UPLOAD_DIR } from "../const"
 import path from "path"
 import { isExistFile, removeDir  } from '../storages/files';
 
-export const mergeFileController = (ctx: Context) => {
+export const mergeFileController = async (ctx: Context) => {
     // 获取当前目录下的文件列表
     const hash = ctx.request.body.hash;
     const filename = ctx.request.body.filename;
     const hashDir = path.resolve(UPLOAD_DIR, hash)
 
 
-    const flag = isExistFile(hashDir)
+    const flag = await isExistFile(hashDir)
     
     if (!flag) {
       ctx.body = {
