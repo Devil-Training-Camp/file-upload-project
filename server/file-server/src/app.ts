@@ -1,8 +1,7 @@
 import Koa from "koa"
-import "../modules"
-import views from "koa-views"
+//import views from "koa-views"
 import json from "koa-json"
-import onerror from "koa-onerror"
+//import onerror from "koa-onerror"
 import koaBody from 'koa-body'
 import logger from "koa-logger"
 import koa_static from "koa-static"
@@ -14,7 +13,7 @@ const staticPath = path.join(__dirname, '../public'); // 静态地址
 const viewsPath = path.join(__dirname, '../views'); // 模板地址
 
 // error handler
-onerror(app)
+//onerror(app)
 
 // middlewares
 // app.use(bodyparser())
@@ -23,9 +22,9 @@ app.use(koaBody())
 app.use(logger())
 // 修改了目录结构后此处也要修改
 app.use(koa_static(staticPath))
-app.use(views(viewsPath, {
-  extension: 'pug'
-}))
+// app.use(views(viewsPath, {
+//   extension: 'pug'
+// }))
 
 // logger
 app.use(async (ctx, next) => {

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:nodemon": "nodemon build/bin/www",
     "dev": "concurrently npm:dev:*",
-    "start": "node build/bin/www"
+    "start": "tsc && node build/bin/www"
   },
   "dependencies": {
     "debug": "^4.3.4",

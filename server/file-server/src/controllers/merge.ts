@@ -2,7 +2,7 @@ import { type Context } from 'koa';
 import fs from 'fs';
 import { UPLOAD_DIR } from "../const"
 import path from "path"
-import { isExistFile, removeDir  } from '../storages/files';
+import { isExistFile  } from '../storages/files';
 
 export const mergeFileController = async (ctx: Context) => {
     // 获取当前目录下的文件列表
@@ -21,8 +21,8 @@ export const mergeFileController = async (ctx: Context) => {
     }
     fs.readdir(hashDir, async (err: NodeJS.ErrnoException | null, files: string[]) => {
 
-
-      files?.sort((a:any, b:any) => (a - b)).map(chunkPath => {
+      const fn2idx = (filename: string) => +path.basename(filename);
+      files?.sort((a, b) => (fn2idx(a) - fn2idx(b))).map(chunkPath => {
         // 合并文件
         fs.appendFileSync(
           path.join(UPLOAD_DIR, filename),
@@ -33,12 +33,6 @@ export const mergeFileController = async (ctx: Context) => {
 
     }); 
 
-    // 删除临时文件夹
-    try {
-      //removeDir(hashDir);
-    } catch (error) {
-      console.log("清空临时文件")
-    }
     
     // rmEmptyDir(hashDir);
     // 返回文件地址
