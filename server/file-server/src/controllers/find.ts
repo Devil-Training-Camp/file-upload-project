@@ -3,8 +3,7 @@ import { isExistFile  } from '../storages/files';
 import path from "path"
 import { UPLOAD_DIR } from "../const"
 
-export const findFileController = async (ctx: Context, next) => {
-    await next();
+export const findFileController = async (ctx: Context) => {
     let flag = false;
     let hashDir = "";
     const { hash, index } = ctx.request.body;

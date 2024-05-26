@@ -8,8 +8,7 @@ interface testFile{
 }
 
 export const uploadFileController = async (ctx: Context) => {
-    const hash = ctx.request.body.hash;
-    const index = ctx.request.body.index;
+    const {hash, index} = ctx.request.body.hash;
     const tempath = (ctx.request.files?.chunk as testFile)?.filepath;
 
     if (!tempath) {
@@ -19,7 +18,7 @@ export const uploadFileController = async (ctx: Context) => {
     // 如果文件夾不存在 則創建
     const hashDir = path.resolve(UPLOAD_DIR, hash);
     if (!isExistFile(hashDir)) {
-        mkdir(hashDir, true);
+        await mkdir(hashDir, true);
     }
     const filePath = path.resolve(hashDir, index);
 

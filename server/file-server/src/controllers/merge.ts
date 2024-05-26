@@ -6,8 +6,7 @@ import { isExistFile, removeDir  } from '../storages/files';
 
 export const mergeFileController = async (ctx: Context) => {
     // 获取当前目录下的文件列表
-    const hash = ctx.request.body.hash;
-    const filename = ctx.request.body.filename;
+    const {hash, filename} = ctx.request.body;
     const hashDir = path.resolve(UPLOAD_DIR, hash)
 
 
