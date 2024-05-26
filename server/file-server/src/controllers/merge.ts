@@ -19,10 +19,11 @@ export const mergeFileController = async (ctx: Context) => {
         message: '文件不存在！',
       }
     }
+    
     fs.readdir(hashDir, async (err: NodeJS.ErrnoException | null, files: string[]) => {
 
       const fn2idx = (filename: string) => +path.basename(filename);
-      files?.sort((a, b) => (fn2idx(a) - fn2idx(b))).map(chunkPath => {
+      files?.sort((r1, r2) => (fn2idx(r1) - fn2idx(r2))).map(chunkPath => {
         // 合并文件
         fs.appendFileSync(
           path.join(UPLOAD_DIR, filename),
