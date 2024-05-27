@@ -1,18 +1,21 @@
 import { type CancelTokenSource } from 'axios'
 import api from './server'
+import {
+  FindFileParams,
+  UploadFileParams,
+  MergeFileParams,
+  FindFileInfo,
+  UploadFileInfo,
+  MergeFileInfo,
+} from './types'
 
-export const test = async () => {
-  const res = await api.get<any>('/api/test', {})
-  return res
-}
-
-export const findFile = async (params: any) => {
-  const res = await api.post<any>('/api/findFile', params)
+export const findFile = async (params: FindFileParams) => {
+  const res = await api.post<FindFileInfo>('/api/findFile', params)
   return res
 }
 
 export const uploadChunk = async (
-  params: any & { cancelToken?: CancelTokenSource }
+  params: UploadFileParams & { cancelToken?: CancelTokenSource }
 ) => {
   const { chunk, hash, index } = params
   const formData = new FormData()
@@ -21,11 +24,11 @@ export const uploadChunk = async (
   formData.append('index', index + '')
   // console.log(cancelToken, "cancelToken")
 
-  const res = await api.post<any>('/api/uploadFile', formData)
+  const res = await api.post<UploadFileInfo>('/api/uploadFile', formData)
   return res
 }
 
-export const mergeFile = async (params: any) => {
-  const res = await api.post<any>('/api/mergeFile', params)
+export const mergeFile = async (params: MergeFileParams) => {
+  const res = await api.post<MergeFileInfo>('/api/mergeFile', params)
   return res
 }

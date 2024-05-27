@@ -2,8 +2,8 @@
 import fs from 'fs'
 import path from 'path'
 
-export const writeFile = async (filepath: string, content: Buffer) => {
-  await fs.writeFileSync(filepath, content)
+export const writeFile = (filepath: string, content: Buffer) => {
+  fs.writeFileSync(filepath, content)
 }
 
 export const readFile = (filepath: string) => {

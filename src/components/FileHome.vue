@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div>
-      <input type="file" @change="fileUpload" />
+      <input type="file" @change="getFile" />
     </div>
 
     <div class="demo-progress">
@@ -27,45 +27,53 @@ import {
   type FilePiece,
 } from '../utils/file'
 import store from '@/store'
+import axios from 'axios'
+
 const file = ref<File | null>(null)
 const hash = ref<string>('')
 const fileChunks = ref<FilePiece[]>([])
 const totalPercentage = ref<number>(0)
 const upload = ref<boolean>(true)
+
+const CancelToken = axios.CancelToken
+let source = CancelToken.source()
 // 选择文件
-function fileUpload(e: any) {
-  file.value = e.target.files[0]
+const getFile = (e: Event) => {
+  const target = e.target as HTMLInputElement
+  if (target && target.files && target.files.length > 0) {
+    file.value = target.files[0]
+  }
 }
 
 // 开始上传
-async function onStartUpload() {
+const onStartUpload = async () => {
   if (!file.value) {
     alert('请选择文件再上传！')
     return
   }
   //进行分片
   const fileChunkList = splitFile(file.value)
-  fileChunks.value = fileChunkList
   hash.value = await createHash({ chunks: fileChunkList })
   //开始上传
   await uploadChunks({
-    pieces: fileChunks.value,
+    pieces: fileChunkList,
     hash: hash.value,
     file: file.value,
     onTick: (progress) => {
       //console.log(progress, "progress");
       totalPercentage.value = progress
     },
+    cancelToken: source,
   })
 }
 
 //继续和暂停
-async function onPause() {
+const onPause = async () => {
   upload.value = !upload.value
   if (!upload.value) {
-    store.state.requests.forEach((v: any) => v.cancel('取消请求'))
-    store.commit('setClearRequests')
-    // source = CancelToken.source();
+    // store.state.requests.forEach((v: any) => v.cancel('取消请求'))
+    //store.commit('setClearRequests')
+    source = CancelToken.source()
   } else {
     await uploadChunks({
       pieces: fileChunks.value,
@@ -75,6 +83,7 @@ async function onPause() {
         //console.log(progress, "progress");
         totalPercentage.value = progress
       },
+      cancelToken: source,
     })
   }
 }

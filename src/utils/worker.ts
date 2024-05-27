@@ -23,7 +23,7 @@ self.onmessage = async (e) => {
 }
 
 const readChunk = async (chunk: Blob) => {
-  return new Promise((resolve, rejects) => {
+  return new Promise((resolve, reject) => {
     const read = new FileReader()
 
     read.readAsArrayBuffer(chunk)

@@ -1,4 +1,5 @@
-import { findFile, uploadChunk, mergeFile, test } from '../api/file'
+import { findFile, uploadChunk, mergeFile } from '../api/file'
+import { type CancelTokenSource } from 'axios'
 // 文件操作工具
 export interface FilePiece {
   chunk: Blob
@@ -6,6 +7,8 @@ export interface FilePiece {
 }
 // 分片的长度
 const CHUNK_SIZE = 5 * 1024 * 1024
+
+let workerInstance: Worker | null = null
 /**
  * @file 目标文件
  * @chunkSize 分片大小
@@ -35,8 +38,9 @@ export const uploadChunks = async (params: {
   hash: string
   file: File | null
   onTick?: (progress: number) => void
+  cancelToken: CancelTokenSource
 }) => {
-  const { pieces: originChunks, hash, file, onTick } = params
+  const { pieces: originChunks, hash, file, onTick, cancelToken } = params
   const total = originChunks.length
   const pool: Promise<any>[] = [] // 并发池
 
@@ -49,7 +53,7 @@ export const uploadChunks = async (params: {
         const { flag } = await findFile({ hash, index: i }) //查找文件是否已经上传过 没上传则继续上传
         if (!flag) {
           onTick?.(Number(((i / total) * 100).toFixed(2)))
-          await uploadChunk({ ...params })
+          await uploadChunk({ ...params, cancelToken })
         }
       } catch (error) {
         console.log(error, 'error')
@@ -59,7 +63,7 @@ export const uploadChunks = async (params: {
       //await  uploadChunk({ ...params });
       if (pieces.length - 1 === i) {
         console.log('上传完成')
-        mergeFile({ hash, filename: file?.name })
+        await mergeFile({ hash, filename: file?.name })
         onTick?.(100)
       }
     }
@@ -78,9 +82,7 @@ export const createHash = ({
 }): Promise<string> => {
   return new Promise((resolve) => {
     // 开启多线程
-    const worker = new Worker(new URL('./worker', import.meta.url), {
-      type: 'module',
-    })
+    const worker = getWorker()
     worker.postMessage(chunks)
     worker.onmessage = (e) => {
       // console.log("我回收到的message", e.data);
@@ -91,4 +93,13 @@ export const createHash = ({
       }
     }
   })
+}
+
+export const getWorker = (): Worker => {
+  if (!workerInstance) {
+    workerInstance = new Worker(new URL('./worker', import.meta.url), {
+      type: 'module',
+    })
+  }
+  return workerInstance
 }

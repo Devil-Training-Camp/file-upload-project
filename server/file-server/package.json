@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prd": "pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:nodemon": "nodemon build/bin/www",
-    "dev": "concurrently npm:dev:*",
     "start": "tsc && node build/bin/www"
   },
   "dependencies": {

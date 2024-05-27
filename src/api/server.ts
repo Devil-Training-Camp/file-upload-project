@@ -39,7 +39,6 @@ class RequestHttp {
   public constructor(config: AxiosRequestConfig) {
     // 实例化axios
     this.service = axios.create(config)
-    const CancelToken = axios.CancelToken
     /**
      * 请求拦截器
      * 客户端发送请求 -> [请求拦截器] -> 服务器
@@ -48,9 +47,6 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config: any) => {
         const token = localStorage.getItem('token') || ''
-        const source = CancelToken.source()
-        config.cancelToken = source.token
-        store.commit('setCancelToken', source)
         return {
           ...config,
           headers: {
@@ -117,8 +113,7 @@ class RequestHttp {
     return this.service.get(url, { params })
   }
   post<T>(url: string, params?: object, config?: any): Promise<any> {
-    console.log(config, 'ccccccccc')
-    return this.service.post(url, params, config)
+    return this.service.post(url, params, {})
   }
   put<T>(url: string, params?: object): Promise<any> {
     return this.service.put(url, params)
