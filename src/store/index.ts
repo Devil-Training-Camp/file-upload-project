@@ -5,26 +5,21 @@ export default createStore({
     requests: [],
     finish: 0,
   },
-  getters: {
-
-  },
+  getters: {},
   mutations: {
     setCancelToken(state: any, cancel: any) {
-      state.requests.push(cancel);
+      state.requests.push(cancel)
     },
     setClearRequests(state: any) {
-      state.requests = [];
+      state.requests = []
     },
     addFinish(state: any) {
-      state.finish++;
+      state.finish++
     },
     setFinish(state: any) {
-      state.finish = 0;
+      state.finish = 0
     },
   },
-  actions: {
-
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {},
 })

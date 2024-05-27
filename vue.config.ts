@@ -1,7 +1,7 @@
-const { defineConfig } = require('@vue/cli-service')
+import { defineConfig } from '@vue/cli-service'
 module.exports = defineConfig({
   transpileDependencies: false,
-  publicPath: "./",
+  publicPath: './',
   // 输出文件目录
   outputDir: 'dist',
   // 静态资源目录 (js, css, img, fonts)
@@ -20,9 +20,9 @@ module.exports = defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
-        }
-      }
-    }
+          '^/api': '',
+        },
+      },
+    },
   },
 })

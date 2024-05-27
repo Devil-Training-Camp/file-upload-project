@@ -1,16 +1,21 @@
-import axios, {AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios'
-import {ElMessage} from 'element-plus'
-import store from '@/store';
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios'
+import { ElMessage } from 'element-plus'
+import store from '@/store'
 // 数据返回的接口
 // 定义请求响应参数，不含data
 interface Result {
-  code: number;
+  code: number
   msg: string
 }
 
 // 请求响应参数，包含data
 interface ResultData<T = any> extends Result {
-  data?: T;
+  data?: T
 }
 const URL = ''
 enum RequestEnums {
@@ -25,16 +30,16 @@ const config = {
   // 设置超时时间
   timeout: RequestEnums.TIMEOUT as number,
   // 跨域时候允许携带凭证
-  withCredentials: true
+  withCredentials: true,
 }
 
 class RequestHttp {
   // 定义成员变量并指定类型
-  service: AxiosInstance;
+  service: AxiosInstance
   public constructor(config: AxiosRequestConfig) {
     // 实例化axios
-    this.service = axios.create(config);
-    const CancelToken = axios.CancelToken;
+    this.service = axios.create(config)
+    const CancelToken = axios.CancelToken
     /**
      * 请求拦截器
      * 客户端发送请求 -> [请求拦截器] -> 服务器
@@ -42,15 +47,15 @@ class RequestHttp {
      */
     this.service.interceptors.request.use(
       (config: any) => {
-        const token = localStorage.getItem('token') || '';
-        const source = CancelToken.source();
-        config.cancelToken = source.token;
-        store.commit("setCancelToken", source);
+        const token = localStorage.getItem('token') || ''
+        const source = CancelToken.source()
+        config.cancelToken = source.token
+        store.commit('setCancelToken', source)
         return {
           ...config,
           headers: {
             'x-access-token': token, // 请求头中携带token信息
-          }
+          },
         }
       },
       (error: AxiosError) => {
@@ -65,29 +70,29 @@ class RequestHttp {
      */
     this.service.interceptors.response.use(
       (response: AxiosResponse) => {
-        const {data, config} = response; // 解构
+        const { data, config } = response // 解构
         if (data.code === RequestEnums.OVERDUE) {
           // 登录信息失效，应跳转到登录页面，并清空本地的token
-          localStorage.setItem('token', '');
+          localStorage.setItem('token', '')
           // router.replace({
           //   path: '/login'
           // })
-          return Promise.reject(data);
+          return Promise.reject(data)
         }
         // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
         if (data.code && data.code !== RequestEnums.SUCCESS) {
-          ElMessage.error(data); // 此处也可以使用组件提示报错信息
+          ElMessage.error(data) // 此处也可以使用组件提示报错信息
           return Promise.reject(data)
         }
-        return data;
+        return data
       },
       (error: AxiosError) => {
-        const {response} = error;
+        const { response } = error
         if (response) {
           this.handleCode(response.status)
         }
         if (!window.navigator.onLine) {
-          ElMessage.error('网络连接失败');
+          ElMessage.error('网络连接失败')
           // 可以跳转到错误页面，也可以不做操作
           // return router.replace({
           //   path: '/404'
@@ -96,32 +101,32 @@ class RequestHttp {
       }
     )
   }
-  handleCode(code: number):void {
-    switch(code) {
+  handleCode(code: number): void {
+    switch (code) {
       case 401:
-        ElMessage.error('登录失败，请重新登录');
-        break;
+        ElMessage.error('登录失败，请重新登录')
+        break
       default:
-        ElMessage.error('请求失败');
-        break;
+        ElMessage.error('请求失败')
+        break
     }
   }
 
   // 常用方法封装
   get<T>(url: string, params?: object): Promise<any> {
-    return this.service.get(url, {params});
+    return this.service.get(url, { params })
   }
   post<T>(url: string, params?: object, config?: any): Promise<any> {
-    console.log(config,"ccccccccc")
-    return this.service.post(url, params, config);
+    console.log(config, 'ccccccccc')
+    return this.service.post(url, params, config)
   }
   put<T>(url: string, params?: object): Promise<any> {
-    return this.service.put(url, params);
+    return this.service.put(url, params)
   }
   delete<T>(url: string, params?: object): Promise<any> {
-    return this.service.delete(url, {params});
+    return this.service.delete(url, { params })
   }
 }
 
 // 导出一个实例对象
-export default new RequestHttp(config);
+export default new RequestHttp(config)

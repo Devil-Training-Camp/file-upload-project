@@ -1,16 +1,16 @@
-import Koa from "koa"
+import Koa from 'koa'
 //import views from "koa-views"
-import json from "koa-json"
+import json from 'koa-json'
 //import onerror from "koa-onerror"
 import koaBody from 'koa-body'
-import logger from "koa-logger"
-import koa_static from "koa-static"
-import fileRouter from "./controllers/index"
-import path from "path"
+import logger from 'koa-logger'
+import koa_static from 'koa-static'
+import fileRouter from './controllers/index'
+import path from 'path'
 const app = new Koa()
 
-const staticPath = path.join(__dirname, '../public'); // 静态地址
-const viewsPath = path.join(__dirname, '../views'); // 模板地址
+const staticPath = path.join(__dirname, '../public') // 静态地址
+const viewsPath = path.join(__dirname, '../views') // 模板地址
 
 // error handler
 //onerror(app)
@@ -34,11 +34,11 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(fileRouter.routes())
-app.use(fileRouter.allowedMethods());
+app.use(fileRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
-});
+})
 
-module.exports = app
+export default app
