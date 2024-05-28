@@ -1,4 +1,4 @@
-import { findFile, uploadChunk, mergeFile } from '../api/file'
+import { findFile, uploadChunk, mergeFile, test } from '../api/file'
 import { type CancelTokenSource } from 'axios'
 // 文件操作工具
 export interface FilePiece {
@@ -43,7 +43,7 @@ export const uploadChunks = async (params: {
   const { pieces: originChunks, hash, file, onTick, cancelToken } = params
   const total = originChunks.length
   const pool: Promise<any>[] = [] // 并发池
-
+  test()
   const doUpload = async (pieces: FilePiece[]) => {
     for (let i = 0; i < pieces.length; i++) {
       const piece = pieces[i]

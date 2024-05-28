@@ -26,7 +26,6 @@ import {
   uploadChunks,
   type FilePiece,
 } from '../utils/file'
-import store from '@/store'
 import axios from 'axios'
 
 const file = ref<File | null>(null)
@@ -51,6 +50,7 @@ const onStartUpload = async () => {
     alert('请选择文件再上传！')
     return
   }
+
   //进行分片
   const fileChunkList = splitFile(file.value)
   hash.value = await createHash({ chunks: fileChunkList })
@@ -60,7 +60,6 @@ const onStartUpload = async () => {
     hash: hash.value,
     file: file.value,
     onTick: (progress) => {
-      //console.log(progress, "progress");
       totalPercentage.value = progress
     },
     cancelToken: source,
@@ -71,8 +70,7 @@ const onStartUpload = async () => {
 const onPause = async () => {
   upload.value = !upload.value
   if (!upload.value) {
-    // store.state.requests.forEach((v: any) => v.cancel('取消请求'))
-    //store.commit('setClearRequests')
+    source.cancel('终止上传！')
     source = CancelToken.source()
   } else {
     await uploadChunks({
@@ -80,7 +78,6 @@ const onPause = async () => {
       hash: hash.value,
       file: file.value,
       onTick: (progress) => {
-        //console.log(progress, "progress");
         totalPercentage.value = progress
       },
       cancelToken: source,

@@ -8,7 +8,7 @@ interface testFile {
 }
 
 export const uploadFileController = (ctx: Context) => {
-  const { hash, index } = ctx.request.body.hash
+  const { hash, index } = ctx.request.body
   const tempath = (ctx.request.files?.chunk as testFile)?.filepath
 
   if (!tempath) {

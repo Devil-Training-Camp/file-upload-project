@@ -1,7 +1,7 @@
-import { defineConfig } from '@vue/cli-service'
+const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: false,
-  publicPath: './',
+  publicPath: "./",
   // 输出文件目录
   outputDir: 'dist',
   // 静态资源目录 (js, css, img, fonts)
@@ -14,15 +14,18 @@ module.exports = defineConfig({
     port: 80,
     https: false,
     open: true,
+    client: {
+      overlay: false,
+    },
     proxy: {
       // 配置跨域处理 可以设置你想要代理的接口
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '',
-        },
-      },
-    },
+          '^/api': ''
+        }
+      }
+    }
   },
 })

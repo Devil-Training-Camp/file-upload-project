@@ -14,10 +14,10 @@ router.get('/test', async (ctx: Context) => {
   }
 })
 
-router.post('/findFile', koaBody(), findFileController)
+router.get('/findFile', findFileController)
 
 router.post('/uploadFile', koaBody({ multipart: true }), uploadFileController)
 
-router.post('/mergeFile', koaBody(), mergeFileController)
+router.get('/mergeFile', mergeFileController)
 
 export default router

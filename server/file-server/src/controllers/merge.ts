@@ -6,8 +6,8 @@ import { isExistFile } from '../storages/files'
 
 export const mergeFileController = async (ctx: Context) => {
   // 获取当前目录下的文件列表
-  const { hash, filename } = ctx.request.body
-  const hashDir = path.resolve(UPLOAD_DIR, hash)
+  const { hash, filename } = ctx.request.query
+  const hashDir = path.resolve(UPLOAD_DIR, hash as string)
 
   const flag = isExistFile(hashDir)
 
@@ -37,7 +37,7 @@ export const mergeFileController = async (ctx: Context) => {
 
     // 逐个将读取到的文件内容写入目标文件
     for (const chunkData of fileContents) {
-      await appendFile(path.join(UPLOAD_DIR, filename), chunkData)
+      await appendFile(path.join(UPLOAD_DIR, filename as string), chunkData)
     }
 
     console.log('Files merged successfully!')

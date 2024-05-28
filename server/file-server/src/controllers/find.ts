@@ -6,10 +6,10 @@ import { UPLOAD_DIR } from '../const'
 export const findFileController = (ctx: Context) => {
   let flag = false
   let hashDir = ''
-  const { hash, index } = ctx.request.body
+  const { hash, index } = ctx.request.query
 
-  const hashD = path.resolve(UPLOAD_DIR, hash)
-  hashDir = path.resolve(hashD, index)
+  const hashD = path.resolve(UPLOAD_DIR, hash as string)
+  hashDir = path.resolve(hashD, index as string)
   flag = isExistFile(hashDir)
 
   ctx.body = {
