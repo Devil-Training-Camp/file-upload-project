@@ -54,7 +54,7 @@ const onStartUpload = async () => {
   //进行分片
   const fileChunkList = splitFile(file.value)
   hash.value = await createHash({ chunks: fileChunkList })
-  //开始上传
+  
   await uploadChunks({
     pieces: fileChunkList,
     hash: hash.value,
@@ -84,16 +84,7 @@ const onPause = async () => {
     })
   }
 }
-// setup 和 class不能共存
-// import { Options, Vue } from 'vue-class-component';
-// @Options({
-//   props: {
-//     msg: String
-//   }
-// })
-// export default class HelloWorld extends Vue {
-//   msg!: string
-// }
+
 </script>
 
 <style scoped lang="scss">

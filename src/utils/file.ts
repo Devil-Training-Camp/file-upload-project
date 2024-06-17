@@ -1,5 +1,6 @@
 import { findFile, uploadChunk, mergeFile, test } from '../api/file'
 import { type CancelTokenSource } from 'axios'
+import { getUploadedChunks, saveChunkInfo, clearChunks } from "./indexDB"
 // 文件操作工具
 export interface FilePiece {
   chunk: Blob
@@ -40,37 +41,68 @@ export const uploadChunks = async (params: {
   onTick?: (progress: number) => void
   cancelToken: CancelTokenSource
 }) => {
-  const { pieces: originChunks, hash, file, onTick, cancelToken } = params
-  const total = originChunks.length
-  const pool: Promise<any>[] = [] // 并发池
-  test()
-  const doUpload = async (pieces: FilePiece[]) => {
-    for (let i = 0; i < pieces.length; i++) {
-      const piece = pieces[i]
-      const params = { hash, chunk: piece.chunk, index: i }
+  const { pieces: originChunks, hash, file, onTick, cancelToken } = params;
+  const total = originChunks.length;
+  const poolLimit = 5; // 并发限制数
+  let currentIndex = 0; // 当前上传的分片索引
+  let completed = 0; // 完成的分片数量
+  test();
 
-      try {
-        const { flag } = await findFile({ hash, index: i }) //查找文件是否已经上传过 没上传则继续上传
-        if (!flag) {
-          onTick?.(Number(((i / total) * 100).toFixed(2)))
-          await uploadChunk({ ...params, cancelToken })
-        }
-      } catch (error) {
-        console.log(error, 'error')
-        return
-      }
+  const pool: Promise<void>[] = [];
 
-      //await  uploadChunk({ ...params });
-      if (pieces.length - 1 === i) {
-        console.log('上传完成')
-        await mergeFile({ hash, filename: file?.name })
-        onTick?.(100)
+  // 获取已上传的分片信息
+  const uploadedChunks = await getUploadedChunks(hash);
+  const uploadedIndexes = uploadedChunks.map(chunk => chunk.index);
+  completed = uploadedIndexes.length;
+
+  const doUpload = async (piece: FilePiece, index: number) => {
+    const params = { hash, chunk: piece.chunk, index };
+    try {
+      const { flag } = await findFile({ hash, index });
+      if (!flag) {
+        onTick?.(Number(((completed / total) * 100).toFixed(2)));
+        await uploadChunk({ ...params, cancelToken });
+        await saveChunkInfo(hash, index);
       }
+    } catch (error) {
+      console.log(error, 'error');
+      if (!navigator.onLine) {
+        await saveChunkInfo(hash, index);
+      }
+      return;
     }
-    // onTick?.(100);
+
+    completed += 1;
+    onTick?.(Number(((completed / total) * 100).toFixed(2)));
+
+    if (completed === total) {
+      console.log('上传完成');
+      await mergeFile({ hash, filename: file?.name });
+      onTick?.(100);
+      await clearChunks(hash); 
+    }
+
+    if (currentIndex < total) {
+      const nextPiece = originChunks[currentIndex];
+      currentIndex += 1;
+      pool.push(doUpload(nextPiece, currentIndex - 1).then(() => {
+        pool.splice(pool.findIndex(p => p === this), 1);
+      }));
+    }
+  };
+
+  while (currentIndex < poolLimit && currentIndex < total) {
+    const piece = originChunks[currentIndex];
+    currentIndex += 1;
+    pool.push(doUpload(piece, currentIndex - 1).then(() => {
+      pool.splice(pool.findIndex(p => p === this), 1);
+    }));
   }
-  await doUpload(originChunks)
-}
+
+  await Promise.all(pool);
+};
+
+
 
 // 这里做文件加密和
 export const createHash = ({
