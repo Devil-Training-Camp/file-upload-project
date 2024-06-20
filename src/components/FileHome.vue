@@ -1,4 +1,5 @@
 <template>
+  <!-- 这些 hello 类名，FileHome.vue 的文件名，也太不严谨了 -->
   <div class="hello">
     <div>
       <input type="file" @change="getFile" />
@@ -73,6 +74,7 @@ const onPause = async () => {
     source.cancel('终止上传！')
     source = CancelToken.source()
   } else {
+    // 比之前版本简单了很多了，不错
     await uploadChunks({
       pieces: fileChunks.value,
       hash: hash.value,

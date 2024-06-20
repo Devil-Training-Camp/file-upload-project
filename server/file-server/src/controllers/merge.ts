@@ -33,6 +33,7 @@ export const mergeFileController = async (ctx: Context) => {
     })
 
     // 等待所有文件读取完成
+    // 用 stream api
     const fileContents = await Promise.all(fileReadPromises)
 
     // 逐个将读取到的文件内容写入目标文件

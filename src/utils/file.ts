@@ -46,6 +46,7 @@ export const uploadChunks = async (params: {
   const poolLimit = 5; // 并发限制数
   let currentIndex = 0; // 当前上传的分片索引
   let completed = 0; // 完成的分片数量
+  // 这个 test 函数是干啥的
   test();
 
   const pool: Promise<void>[] = [];

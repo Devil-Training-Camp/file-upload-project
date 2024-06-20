@@ -11,6 +11,7 @@ export const readFile = (filepath: string) => {
 }
 
 export const isExistFile = (filepath: string) => {
+  // 提个要求：所有 fs 操作必须是异步的，promise 化
   return fs.existsSync(filepath)
 }
 
