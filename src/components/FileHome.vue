@@ -1,4 +1,5 @@
 <template>
+  <!-- 这些 hello 类名，FileHome.vue 的文件名，也太不严谨了 -->
   <div class="hello">
     <div>
       <input type="file" @change="getFile" />
