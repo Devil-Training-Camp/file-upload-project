@@ -19,6 +19,7 @@ interface ResultData<T = any> extends Result {
 }
 const URL = ''
 enum RequestEnums {
+  // 感觉之前的问题都没改啊。。。
   TIMEOUT = 20000,
   OVERDUE = 600, // 登录失效
   FAIL = 999, // 请求失败

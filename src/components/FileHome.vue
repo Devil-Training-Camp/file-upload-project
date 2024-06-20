@@ -73,6 +73,7 @@ const onPause = async () => {
     source.cancel('终止上传！')
     source = CancelToken.source()
   } else {
+    // 比之前版本简单了很多了，不错
     await uploadChunks({
       pieces: fileChunks.value,
       hash: hash.value,
